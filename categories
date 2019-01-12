@@ -1,0 +1,5 @@
+var categories = ['city-management', 'climate-and-whather', 'commerce -and-industry', 
+            'development', 'education', 'employment-and-labour', 'environment', 
+            'finance', 'food', 'health', 'housing', 'it-and-broadcasting', 
+            'law-and-security', 'miscellaneous', 'population', 'recreation-and-culture',
+           'social-welfare', 'transport']
