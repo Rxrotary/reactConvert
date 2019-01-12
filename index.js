@@ -21,9 +21,6 @@ void (async () => {
 
 
 
-
-
-
 /*
 const teams = await page.evalutate(()=> {
     const grabFromRow = (row, classname) => row
