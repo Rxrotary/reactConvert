@@ -1,19 +1,15 @@
 const puppeteer = require('puppeteer');
-var stringify = require('csv-stringify');
+const fs = require('fs');
 
 void (async () => {
 
 
-    var categories = ['city-management', 'climate-and-weather', 'commerce-and-industry',
-        'development', 'education', 'employment-and-labour', 'environment',
-        'finance', 'food', 'health', 'housing', 'it-and-broadcasting',
-        'law-and-security', 'miscellaneous', 'population', 'recreation-and-culture',
-        'social-welfare', 'transport']
+    var categories = ['city-management']
 
-    for (i in categories) {
-        const browser = await puppeteer.launch({ headless: false });
+    for (category of categories) {
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
         const page = await browser.newPage();
-        await page.goto(`https://data.gov.hk/en-datasets/category/${categories[i]}?order=name&file-content=no`);
+        await page.goto(`https://data.gov.hk/en-datasets/category/${category}?order=name&file-content=no`);
 
         while (await page.$('#load-more > a') !== null) {
             await page.click('#load-more > a');
@@ -24,25 +20,33 @@ void (async () => {
             Array.from(document.querySelectorAll('.dataset-item'))
                 .map(link => ({
                     title: link.querySelector('div.dataset-content > h3 > a').textContent,
-                    notes: link.querySelector('div.dataset-content > div.notes').textContent,
+                    note: link.querySelector('div.dataset-content > div.notes').textContent,
                     link: link.querySelector('div.dataset-content > h3 > a').href,
                     format: link.querySelector('div.group-resource-format > ul.dataset-resources.list-unstyled > li > span > a').textContent
                 }))
                 .slice(0, 3)
         )
         console.log(info);
-        await browser.close(); 
+        // await browser.close(); 
         
-        var input = [] 
-        var line = logLine.split(",");
-        input.push(line);
+        // var input = [] 
+        // var line = logLine.split(",");
+        // input.push(line);
         
-        await stringify(input, function(err, info){
-          fs.writeFile(`${categoreis[i]}.csv`, info);
+        // await stringify(input, function(err, info){
+        //   fs.writeFile(`${categoreis[i]}.csv`, info);
 
+        // });
 
-         
-        });
+        const Json2csvParser = require('json2csv').Parser;
+        const fields = ['title', 'note', 'link', 'format'];
+
+        const json2csvParser = new Json2csvParser({ fields });
+        const csv = json2csvParser.parse(info);
+ 
+
+        fs.writeFileSync(`${category}.csv`, csv);
+        
     }
 
 
