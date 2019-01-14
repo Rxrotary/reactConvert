@@ -28,14 +28,14 @@ void (async () => {
                     Link: link.querySelector('div.dataset-content > h3 > a').href,
                     Format: link.querySelector('div.group-resource-format > ul.dataset-resources.list-unstyled > li > span > a').textContent
                 }))
-                .slice(0, 2)
+                .slice(0)
         )
         console.log(info);
         await browser.close(); 
         
         const Json2csvParser = require('json2csv').Parser;
         const fields = ['Title', 'Notes', 'Link', 'Format'];
-
+                
         const json2csvParser = new Json2csvParser({ fields });
         const csv = json2csvParser.parse(info);
  

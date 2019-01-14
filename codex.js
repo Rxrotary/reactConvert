@@ -17,7 +17,7 @@ const listing = await page.evaluate(() => {
     
     const grabData = (row, classname) => row
       .querySelector(`th.${classname}`)
-      .textContent
+      .innerText
       .trim()
 
     const listRows = document.querySelectorAll('tr')
