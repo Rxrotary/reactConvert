@@ -1,0 +1,22 @@
+{
+  "name": "reactconvert",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rxrotary/reactConvert.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rxrotary/reactConvert/issues"
+  },
+  "homepage": "https://github.com/Rxrotary/reactConvert#readme",
+  "dependencies": {
+    "pdf2json": "^1.1.8"
+  }
+}
