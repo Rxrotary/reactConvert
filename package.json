@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/Rxrotary/reactConvert#readme",
   "dependencies": {
-    "pdf2json": "^1.1.8"
+    "async": "^2.6.1",
+    "pdf2json": "^1.1.8",
+    "stringifystream": "^1.0.5"
   }
 }
