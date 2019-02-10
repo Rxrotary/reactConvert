@@ -1,9 +1,8 @@
 const pdf2html = require('pdf2html');
 const fs = require('fs');
+const path = require('path');
 
-// Conversion error: Error: Command failed: java -jar ...
-//will occur if the source folder is not './'
-const pdfSourceFolder = './';
+const pdfSourceFolder = './in/';
 const htmlOutputFolder = './out/';
 
 const getPdfFiles = (sourceFolder) => {
@@ -15,7 +14,17 @@ const getPdfFiles = (sourceFolder) => {
       }
       files.map((file) => {
         if (file.indexOf('.pdf') !== -1) {
-          fileNames.push(file);
+          let newFileName = file.trim().replace(/\s+|[-]/g, '_');
+          fs.rename(
+            path.join(sourceFolder, file),
+            path.join(sourceFolder, newFileName),
+            (err) => {
+              if (err) {
+                console.log('ERROR: ' + err);
+              }
+            }
+          );
+          fileNames.push(newFileName);
         }
       });
       return resolve(fileNames);
@@ -23,8 +32,8 @@ const getPdfFiles = (sourceFolder) => {
   });
 };
 
-const pdfToHtml = (file, outputFolder) => {
-  pdf2html.html(file, (err, html) => {
+const pdfToHtml = (file, sourceFolder, outputFolder) => {
+  pdf2html.html(path.join(sourceFolder, file), (err, html) => {
     if (err) {
       console.error('Conversion error: ' + err);
     } else {
@@ -32,7 +41,9 @@ const pdfToHtml = (file, outputFolder) => {
         `${outputFolder}/${file.replace(/\.pdf$/, '')}.html`,
         html,
         (err) => {
-          if (err) throw err;
+          if (err) {
+            throw err;
+          }
           console.log(`${file} has been saved!`);
         }
       );
@@ -43,7 +54,7 @@ const pdfToHtml = (file, outputFolder) => {
 const pdfToHtmls = async (sourceFoler, outputFolder) => {
   pdfFiles = await getPdfFiles(sourceFoler);
   pdfFiles.map((file) => {
-    pdfToHtml(file, outputFolder);
+    pdfToHtml(file, sourceFoler, outputFolder);
   });
 };
 
