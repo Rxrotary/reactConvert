@@ -56,7 +56,7 @@ const pdfToHtml = (file, sourceFolder, outputFolder) => {
 const pdfToHtmls = async (sourceFoler, outputFolder) => {
   pdfFiles = await getPdfFiles(sourceFoler);
   let fileCont = pdfFiles.length - 1;
-  while (fileCont) {
+  while (fileCont >= 0) {
     await pdfToHtml(pdfFiles[fileCont], sourceFoler, outputFolder);
     fileCont--;
   }
